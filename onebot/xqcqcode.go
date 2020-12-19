@@ -76,14 +76,14 @@ func whatCQprams(code string) map[string]interface{} {
 		equal := strings.Index(code[start:], "=") + start
 		if !strings.Contains(code[equal:], ",") {
 			// 如果没有 , 参数 遍历完毕
-			elems[code[index+1:equal]] = code[equal+1 : (len(code) - 1)]
+			elems[code[index+1:equal]] = escape(code[equal+1 : (len(code) - 1)])
 			break
 		}
 		end := strings.Index(code[equal:], ",") + equal
-		elems[code[index+1:equal]] = code[equal+1 : end]
+		elems[code[index+1:equal]] = escape(code[equal+1 : end])
 		start = end
 	}
-	return map[string]interface{}{"data": escape(elems)}
+	return map[string]interface{}{"data": elems}
 }
 
 // xq2cqCode 普通XQ码转CQ码
@@ -163,8 +163,8 @@ func cq2xqCode(message string) string {
 }
 
 func escape(text string) string {
-	text = strings.ReplaceAll(text, "&#44;", ",")
 	text = strings.ReplaceAll(text, "&amp;", "&")
+	text = strings.ReplaceAll(text, "&#44;", ",")
 	text = strings.ReplaceAll(text, "&#91;", "[")
 	text = strings.ReplaceAll(text, "&#93;", "]")
 	return text
