@@ -351,7 +351,7 @@ func (target cq2xqMsgToWhere) cq2xqJson(message gjson.Result) string {
 		target.Type_,
 		target.GroupID,
 		target.UserID,
-		message.Get("data.*").Str,
+		escape(message.Get("data.*").Str),
 	)
 	return ""
 }
